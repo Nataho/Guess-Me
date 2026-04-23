@@ -1,0 +1,283 @@
+[gd_scene format=3 uid="uid://da4l6mpigu4n6"]
+
+[ext_resource type="Script" uid="uid://bcmy8iw4bxi33" path="res://scenes/game/game.gd" id="1_sul5r"]
+[ext_resource type="FontFile" uid="uid://u22lc2cyyojm" path="res://assets/fonts/Funkora-Demo.otf" id="2_7h61r"]
+
+[sub_resource type="Gradient" id="Gradient_sul5r"]
+offsets = PackedFloat32Array(0.006024096, 1)
+colors = PackedColorArray(0.080783345, 0.080783345, 0.080783345, 1, 0.4, 0.14509805, 0.28627452, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_7h61r"]
+gradient = SubResource("Gradient_sul5r")
+fill_from = Vector2(0, 1)
+fill_to = Vector2(0.8347826, 0.30869564)
+
+[sub_resource type="Theme" id="Theme_7h61r"]
+Button/font_sizes/font_size = 80
+Button/fonts/font = ExtResource("2_7h61r")
+
+[sub_resource type="LabelSettings" id="LabelSettings_sul5r"]
+font = ExtResource("2_7h61r")
+font_size = 120
+
+[sub_resource type="LabelSettings" id="LabelSettings_7h61r"]
+font = ExtResource("2_7h61r")
+font_size = 40
+font_color = Color(1, 0, 0, 1)
+
+[node name="game" type="Control" unique_id=1274074134]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_sul5r")
+
+[node name="bg" type="ColorRect" parent="." unique_id=1772838052]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 1.0
+offset_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0.2, 0.4862745, 1)
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=911902703]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("GradientTexture2D_7h61r")
+
+[node name="grid_pivot" type="Control" parent="." unique_id=1200943453]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="guess_grid" type="GridContainer" parent="grid_pivot" unique_id=1759770357]
+custom_minimum_size = Vector2(466, 560)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -246.0
+offset_top = -299.0
+offset_right = 246.0
+offset_bottom = 299.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/h_separation = 10
+theme_override_constants/v_separation = 10
+columns = 5
+
+[node name="RichTextLabel" type="RichTextLabel" parent="." unique_id=1322531959]
+layout_mode = 0
+offset_right = 260.0
+offset_bottom = 78.0
+bbcode_enabled = true
+text = "[color=484848]Letter Doesn't Exsist in Word[/color]
+[color=1C82AD]Correct Letter, Wrong Position[/color]
+[color=03C988]Correct Letter, Correct Position[/color]"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ColorRect" type="ColorRect" parent="RichTextLabel" unique_id=1688551251]
+modulate = Color(1, 1, 1, 0.16470589)
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="button_pivot" type="Control" parent="." unique_id=1492017946]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_top = -113.0
+offset_bottom = -113.0
+grow_horizontal = 2
+
+[node name="again" type="Button" parent="button_pivot" unique_id=104054199]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -256.0
+offset_top = -65.0
+offset_right = 256.0
+offset_bottom = 65.0
+grow_horizontal = 2
+theme = SubResource("Theme_7h61r")
+text = "Try Again"
+
+[node name="word_pivot" type="Control" parent="." unique_id=1284575138]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_top = 478.0
+offset_bottom = 478.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="word" type="Label" parent="word_pivot" unique_id=1132450826]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -78.0
+offset_right = 20.0
+offset_bottom = 78.0
+grow_horizontal = 2
+grow_vertical = 2
+label_settings = SubResource("LabelSettings_sul5r")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label" type="Label" parent="word_pivot/word" unique_id=1811380089]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -53.5
+offset_top = -24.5
+offset_right = 53.5
+offset_bottom = -1.5
+grow_horizontal = 2
+text = "The word was"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="targets" type="Control" parent="." unique_id=1044294254]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 1.0
+offset_right = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="center" type="Control" parent="targets" unique_id=1870521783]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="hid_top" type="Control" parent="targets" unique_id=8199048]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_top = -230.0
+offset_bottom = -230.0
+grow_horizontal = 2
+mouse_filter = 2
+
+[node name="mid_top" type="Control" parent="targets" unique_id=2075362680]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_top = -200.0
+offset_bottom = -200.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="mid_bottom" type="Control" parent="targets" unique_id=1083353081]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_top = 200.0
+offset_bottom = 200.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="hid_bottom" type="Control" parent="targets" unique_id=37330324]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_top = 230.0
+offset_bottom = 230.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 2
+
+[node name="hid_left" type="Control" parent="targets" unique_id=1577737571]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = -480.0
+offset_right = -480.0
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="hid_right" type="Control" parent="targets" unique_id=535881261]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = 480.0
+offset_right = 480.0
+grow_horizontal = 0
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="error" type="Label" parent="." unique_id=1533012100]
+visible = false
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -494.0
+offset_top = -97.0
+offset_right = -385.0
+offset_bottom = -45.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "Error"
+label_settings = SubResource("LabelSettings_7h61r")
+horizontal_alignment = 1
+vertical_alignment = 1

@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://5uwuaiomh0a0"]
+
+[ext_resource type="Script" uid="uid://ctu5pxdhedl7d" path="res://singleton/DictionaryApi/DictionaryApi.gd" id="1_gxb7o"]
+
+[node name="DictionaryApi" type="HTTPRequest" unique_id=1466423475]
+script = ExtResource("1_gxb7o")

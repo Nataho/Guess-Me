@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://1jt24avjsu8g"]
+
+[ext_resource type="Script" uid="uid://pmi24d4h4kwl" path="res://scenes/test/test.gd" id="1_m7npr"]
+
+[node name="test" type="Control" unique_id=1706912701]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_m7npr")
+
+[node name="HTTPRequest" type="HTTPRequest" parent="." unique_id=129178737]
+
+[connection signal="request_completed" from="HTTPRequest" to="." method="_on_http_request_completed"]
