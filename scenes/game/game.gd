@@ -6,6 +6,8 @@ extends Control
 @onready var word: Label = $word_pivot/word; @onready var word_pivot: Control = $word_pivot
 @onready var again_button: Button = $button_pivot/again; @onready var button_pivot: Control = $button_pivot
 
+
+
 var grid:Array[Letter] = []
 var word_length = 5
 var guesses = 6
@@ -13,9 +15,9 @@ var guesses = 6
 var attempt: int = 0 
 var letter_position: int = 0 
 
-var grid_target_pos = Vector2(0,0)
-var word_target_pos = Vector2(0,0)
-var button_target_pos = Vector2(0,720)
+var grid_target_node
+var word_target_node
+var button_target_node
 
 var has_word:bool = false
 var first_start:bool = true
@@ -26,13 +28,13 @@ var hidden_positions := {}
 
 func _reset_positions():
 	if first_start:
-		grid_pivot.global_position = hidden_positions["center"]
-		button_pivot.global_position = hidden_positions["top"]
-		word_pivot.global_position = hidden_positions["bottom"]
+		grid_pivot.global_position = hidden_positions["center"].global_position
+		button_pivot.global_position = hidden_positions["top"].global_position
+		word_pivot.global_position = hidden_positions["bottom"].global_position
 		first_start = false
-	grid_target_pos = hidden_positions["center"]
-	button_target_pos = hidden_positions["top"]
-	word_target_pos = hidden_positions["bottom"]
+	grid_target_node = hidden_positions["center"]
+	button_target_node = hidden_positions["top"]
+	word_target_node = hidden_positions["bottom"]
 	
 	_start_game()
 
@@ -68,23 +70,50 @@ func _start_game():
 	# 3. Wait for the engine to calculate UI sizes
 	await get_tree().process_frame
 	
-	grid_target_pos = _get_screen_center()
+	grid_target_node = hidden_positions["center"]
 	can_type = true
 
 func _ready() -> void:
 	hidden_positions = {
-		"center": $targets/center.global_position,
-		"top": $targets/hid_top.global_position,
-		"mid_top": $targets/mid_top.global_position,
-		"mid_bottom": $targets/mid_bottom.global_position,
-		"bottom": $targets/hid_bottom.global_position,
-		"left": $targets/hid_left.global_position,
-		"right": $targets/hid_right.global_position,
+		"center": $targets/center,
+		"top": $targets/hid_top,
+		"mid_top": $targets/mid_top,
+		"mid_bottom": $targets/mid_bottom,
+		"bottom": $targets/hid_bottom,
+		"left": $targets/hid_left,
+		"right": $targets/hid_right,
 	}
+	#get_viewport().size_changed.connect(_on_window_resized)
+	
 	_connect_signals()
 	_reset_positions()
 	
 	#_start_game()
+
+#func _on_window_resized():
+	## 1. Update the dictionary with the new positions of your target markers
+	#hidden_positions = {
+		#"center": $targets/center.global_position,
+		#"top": $targets/hid_top.global_position,
+		#"mid_top": $targets/mid_top.global_position,
+		#"mid_bottom": $targets/mid_bottom.global_position,
+		#"bottom": $targets/hid_bottom.global_position,
+		#"left": $targets/hid_left.global_position,
+		#"right": $targets/hid_right.global_position,
+	#}
+	#
+	## 2. Re-calculate the grid pivot (it needs to know its new size/center)
+	#alter_grid_pivot()
+	#
+	## 3. Update the active target variables based on the game state
+	#if attempt < guesses and has_word:
+		## If game is active, keep grid centered
+		#grid_target_pos = _get_screen_center() - (guess_grid.size / 2)
+	#else:
+		## If game is over, use the hidden positions
+		#grid_target_pos = hidden_positions["right"]
+		#word_target_pos = hidden_positions["mid_top"] + Vector2(0,100)
+		#button_target_pos = hidden_positions["mid_bottom"]
 
 func _connect_signals():
 	again_button.pressed.connect(_reset_positions)
@@ -95,9 +124,9 @@ func _get_screen_center() -> Vector2:
 func _physics_process(delta: float) -> void:
 	### Smooth movement to the calculated targets
 	#if !has_word: return
-	grid_pivot.global_position = grid_pivot.global_position.lerp(grid_target_pos, 5 * delta)
-	word_pivot.global_position = word_pivot.global_position.lerp(word_target_pos, 5 * delta)
-	button_pivot.global_position = button_pivot.global_position.lerp(button_target_pos, 5 * delta)
+	grid_pivot.global_position = grid_pivot.global_position.lerp(grid_target_node.global_position, 5 * delta)
+	word_pivot.global_position = word_pivot.global_position.lerp(word_target_node.global_position, 5 * delta)
+	button_pivot.global_position = button_pivot.global_position.lerp(button_target_node.global_position, 5 * delta)
 
 func _create_grid():
 	for child in guess_grid.get_children():
@@ -184,8 +213,8 @@ func _submit_row():
 	else:
 		await get_tree().create_timer(1).timeout
 		var screen_center = _get_screen_center()
-		grid_target_pos = hidden_positions["right"]
-		word_target_pos = hidden_positions["mid_top"] + Vector2(0,100)
-		button_target_pos = hidden_positions["mid_bottom"]
+		grid_target_node = hidden_positions["right"]
+		word_target_node = hidden_positions["mid_top"]
+		button_target_node = hidden_positions["mid_bottom"]
 		print("Game Over!")
 		print("the word was: ", Letter.word)
